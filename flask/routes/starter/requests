@@ -1,1 +1,9 @@
 curl localhost:5555/langs
+
+curl -X POST -H 'Content-Type:application/json' -d '{"name":"Pascal", "creator":"Writh", "year":1970, "users":0}' localhost:5555:langs
+
+
+curl -X DELETE localhost:5555/7
+
+
+curl -X PATCH -H 'Content-Type:application/json' -d '{"users":9999}' localhost:5555/langs/1
