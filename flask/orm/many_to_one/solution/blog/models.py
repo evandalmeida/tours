@@ -1,7 +1,19 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
-from shared import db, metadata
+from sqlalchemy import MetaData
+from flask_sqlalchemy import SQLAlchemy
 
+convention = {
+    "ix": "ix_%(column_0_label)s",
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s",
+}
+
+metadata = MetaData(naming_convention=convention)
+
+db = SQLAlchemy(metadata=metadata)
 
 class User(db.Model):
     __tablename__ = "user"
@@ -31,7 +43,6 @@ class Blog(db.Model):
 
     user = db.relationship("User", back_populates="blogs")
 
-    blog_tags = db.relationship("BlogTag", back_populates="blog")
 
     @validates('content')
     def validate_content(self, key:str, content:str):
@@ -48,20 +59,3 @@ class Blog(db.Model):
         }
 
 
-class BlogTag(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    blog_id = db.Column(db.ForeignKey("blog.id"))
-    tag_id = db.Column(db.ForeignKey("tag.id"))
-    blog = db.relationship("Blog", back_populates="blog_tags")
-    tag = db.relationship("Tag", back_populates="blog_tags")
-
-
-class Tag(db.Model):
-    __tablename__ = "tag"
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String)
-
-    blog_tags = db.relationship("BlogTag", back_populates="tag")
-
-    def to_dict(self):
-        return {"id": self.id, "text": self.text}

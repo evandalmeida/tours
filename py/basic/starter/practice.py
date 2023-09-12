@@ -33,8 +33,8 @@ def count_letter(string: str, letter: str) -> int:
     pass
 
 
-print("count_letters")
-# print(count_letters('Computers are good at following instructions, but not at reading your mind.', 'o'))
+print("count_letter")
+# print(count_letter('Computers are good at following instructions, but not at reading your mind.', 'o'))
 
 
 def swap_min_max(l: list[int]) -> list[int]:

@@ -1,7 +1,8 @@
 from faker import Faker
 from models import User, Blog, Tag, BlogTag
 from random import choice, randint
-from shared import db, app
+from models import db
+from app import app
 
 fake = Faker()
 
