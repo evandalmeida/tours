@@ -1,5 +1,5 @@
 from faker import Faker
-from models import User, Blog, Tag, BlogTag
+from models import User, Blog
 from random import choice, randint
 from models import db
 from app import app
@@ -24,20 +24,13 @@ def create_blogs(users: list[User]) -> list[Blog]:
     return blogs
 
 
-def create_tags() -> list[Tag]:
-    tags = []
-    for _ in range(0, 30):
-        tag = Tag(text=fake.sentence().split()[0])
-        tags.append(tag)
 
-    return tags
 
 
 with app.app_context():
     User.query.delete()
     Blog.query.delete()
-    Tag.query.delete()
-    BlogTag.query.delete()
+
     db.session.commit()
     users = create_users()
 
@@ -49,16 +42,8 @@ with app.app_context():
 
     db.session.commit()
 
-    tags = create_tags()
-    print(len(tags))
-    db.session.add_all(tags)
-    db.session.commit()
 
-    blog_tags = []
-    for blog in blogs:
-        for _ in range(0, 3):
-            blog_tags.append(BlogTag(blog_id=blog.id, tag_id=choice(tags).id))
-    db.session.add_all(blog_tags)
+
 
     db.session.commit()
     # import ipdb; ipdb.set_trace()
