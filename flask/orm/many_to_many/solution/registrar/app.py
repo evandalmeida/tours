@@ -1,8 +1,17 @@
+from flask import Flask
+
+from flask_migrate import Migrate
 from flask import make_response, jsonify, request, g
-from shared import app, db
-from models import Student, Course, Enrollment
+from models import db, Student, Course, Enrollment
 from sqlalchemy.sql.expression import func
 
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
+
+migrate = Migrate(app, db)
+
+db.init_app(app)
 
 @app.route("/")
 def root():
@@ -67,7 +76,8 @@ def enroll_student(id: int):
         make_response(jsonify({"error": f"id {id} not found"}), 404)
     if not course:
         make_response(jsonify({"error": f"id {id} not found"}), 404)
-    enrollment = Enrollment(student_id=student.id, course_id=course.id, term="F2023")
+    enrollment = Enrollment(student_id=student.id, course_id=course.id, term=request_data["term"])
+
     db.session.add(enrollment)
     db.session.commit()
     return make_response(jsonify(enrollment.to_dict()), 201)
