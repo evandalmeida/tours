@@ -1,30 +1,3 @@
-
-Student:
-    id : primary key
-    fname: String
-    lname: String
-    grad_year: int
-
-Course:
-    id: primary_key
-    title: String
-    instructor: String
-    credits: int
-
-Enrollment:
-    id: primary key
-    student_id: foreign key --> Student.id
-    course_id: foreign key --> Course.id
-    term: string
-
-Routes:
-    GET /students
-    GET /students/<int:id>
-    PATCH /students/<int:id>
-    DELETE /students/<int:id>
-    GET /students/<int:id>/courses
-    POST /students/<int:id>/enrollments
-
 # Models
 
  - Student
@@ -39,7 +12,7 @@ Routes:
     - term:       String (not null)
  - Course
     - id:         Integer (primary key)
-    - name:       String (unqiue, not null)
+    - title:       String (unqiue, not null)
     - instructor: String 
     - credits:    Integer
 # Validation
@@ -113,13 +86,6 @@ Routes:
       {
           id
           student_id
-          course_id
-          student {
-            id
-            fname
-            lname
-            grad_year
-          }
           course {
             id
             name

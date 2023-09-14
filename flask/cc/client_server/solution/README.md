@@ -1,16 +1,16 @@
 # Models
 
  - Server
-    - id   (primary key)
-    - name (unqiue, not null)
+    - **id**   Integer (primary key)
+    - **name** String (unqiue, not null)
  - Message
-    - id        (primary key)
-    - content   (not null)
-    - server_id (not null)
-    - client_id (not null)
+    - **id**        Integer (primary key)
+    - **content**   String (not null)
+    - **server_id** Integer (not null)
+    - **client_id** Integer (not null)
  - Client
-    - id   (primary key)
-    - name (unqiue, not null)
+    - **id**   (primary key)
+    - **name** (unqiue, not null)
 # Validation
 
   - Server
